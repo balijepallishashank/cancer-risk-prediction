@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Risk Prediction Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        h2 {
+            color: #17a2b8;
+            margin-bottom: 20px;
+        }
+        .result-container {
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+        }
+        .result-container p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .recommendation {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .recommendation p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cancer Risk Prediction Result</h2>
+        <div class="result-container">
+            <p>Your predicted risk level is: <strong>{{ risk_level }}</strong></p>
+            <p>Your predicted risk score is: <strong>{{ risk_score }}</strong></p>
+            <div class="recommendation">{{ recommendation|safe }}</div>
+        </div>
+        <div class="footer">
+            <p>Disclaimer: The predictions provided are based on available data and may not be 100% accurate. Consult a healthcare professional for personalized advice.</p>
+        </div>
+    </div>
+</body>
+</html>
