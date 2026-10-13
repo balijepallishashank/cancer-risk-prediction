@@ -3,64 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancer Risk Prediction Result</title>
+    <title>Cancer Lifestyle Risk Assessment Results</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            text-align: center;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        h2 {
-            color: #17a2b8;
-            margin-bottom: 20px;
+
+        /* Top Navigation */
+        .top-nav {
+            background: linear-gradient(135deg, #1f2937, #33333c);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
-        .result-container {
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            border: 1px solid #ced4da;
+
+        .top-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s ease;
         }
-        .result-container p {
-            font-size: 18px;
-            margin: 10px 0;
+
+        .top-nav a:hover {
+            color: #ff8df6;
         }
-        .recommendation {
-            margin-top: 20px;
-            text-align: left;
+
+        .top-nav .brand {
+            font-size: 17px;
+            color: #ff9cf7;
+            font-weight: bold;
         }
-        .recommendation p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin: 10px 0;
+
+        /* Main Container */
+        .page-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
         }
-        .footer {
-            margin-top: 30px;
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 680px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 36px 32px;
+            text-align: center;
+        }
+
+        h1.title {
+            color: #1f2937;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: #64748b;
             font-size: 14px;
-            color: #6c757d;
+            margin-bottom: 24px;
+        }
+
+        /* Score Display Box */
+        .score-box {
+            border-radius: 14px;
+            padding: 24px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-box.high {
+            background: #fff1f2;
+            border: 2px solid #fecdd3;
+            color: #9f1239;
+        }
+
+        .score-box.moderate {
+            background: #fffbeb;
+            border: 2px solid #fde68a;
+            color: #92400e;
+        }
+
+        .score-box.low {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .score-box.error {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            color: #475569;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 4px;
+        }
+
+        .score-box.high .badge {
+            background: #e11d48;
+            color: white;
+        }
+
+        .score-box.moderate .badge {
+            background: #d97706;
+            color: white;
+        }
+
+        .score-box.low .badge {
+            background: #16a34a;
+            color: white;
+        }
+
+        .score-box.error .badge {
+            background: #64748b;
+            color: white;
+        }
+
+        .score-level {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .score-number {
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        .score-number span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        /* Recommendations Section */
+        .recommendations-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 22px 24px;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .recommendations-card h3 {
+            font-size: 16px;
+            color: #1e293b;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .recommendations-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .recommendations-card li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        .recommendations-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #9100ff;
+            font-weight: bold;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #9100ff;
+            color: white;
+            box-shadow: 0 4px 12px rgba(145, 0, 255, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #7900d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(145, 0, 255, 0.35);
+        }
+
+        .btn-secondary {
+            background: #1f2937;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #374151;
+            transform: translateY(-2px);
+        }
+
+        /* Medical Disclaimer */
+        .disclaimer-box {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #64748b;
+            text-align: justify;
+        }
+
+        .disclaimer-box strong {
+            color: #334155;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Cancer Risk Prediction Result</h2>
-        <div class="result-container">
-            <p>Your predicted risk level is: <strong>{{ risk_level }}</strong></p>
-            <p>Your predicted risk score is: <strong>{{ risk_score }}</strong></p>
-            <div class="recommendation">{{ recommendation|safe }}</div>
-        </div>
-        <div class="footer">
-            <p>Disclaimer: The predictions provided are based on available data and may not be 100% accurate. Consult a healthcare professional for personalized advice.</p>
-        </div>
+
+    <!-- Header Navigation -->
+    <header class="top-nav">
+        <a href="/" class="brand">SPOC &bull; Cancer Prevention Guide</a>
+        <a href="/">&larr; Back to Home</a>
+    </header>
+
+    <div class="page-container">
+        <main class="card">
+            <h1 class="title">Lifestyle Risk Assessment Results</h1>
+            <p class="subtitle">Based on your submitted lifestyle, environmental, and medical indicators</p>
+
+            <!-- Result Score Card -->
+            <section class="score-box {{ risk_category|default('moderate') }}">
+                <span class="badge">Assessment Result</span>
+                <div class="score-level">{{ risk_level|default('Assessment Complete') }}</div>
+                <div class="score-number">
+                    Score: {{ risk_score|default(0) }}
+                </div>
+            </section>
+
+            <!-- Actionable Recommendations -->
+            <section class="recommendations-card">
+                <h3>Recommended Lifestyle Actions</h3>
+                <ul>
+                    {% if recommendations %}
+                        {% for item in recommendations %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Maintain a nutrient-rich balanced diet with plenty of leafy vegetables and dietary fiber.</li>
+                        <li>Engage in regular physical activities and exercise.</li>
+                        <li>Maintain healthy habits and participate in routine clinical screenings.</li>
+                    {% endif %}
+                </ul>
+            </section>
+
+            <!-- Navigation Controls -->
+            <nav class="action-buttons" aria-label="Result navigation">
+                <a href="/survey" class="btn btn-primary">Retake Survey</a>
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+            </nav>
+
+            <!-- Medical Disclaimer -->
+            <footer class="disclaimer-box">
+                <p>
+                    <strong>Medical Disclaimer & Limitations:</strong>
+                    This evaluation provides a demonstration lifestyle risk index calculated from user-reported factors (including tobacco and alcohol exposure, physical activity, sleep, diet, and self-reported medical history). It is designed exclusively for public education and health awareness.
+                </p>
+                <p style="margin-top: 8px;">
+                    This score does <strong>not</strong> constitute a clinical diagnosis, an oncology screening, or medical advice. A low score does not guarantee immunity from cancer, nor does a high score mean cancer is present. Always consult a qualified oncologist or healthcare physician for personalized medical advice and official cancer screening protocols.
+                </p>
+            </footer>
+        </main>
     </div>
+
 </body>
 </html>

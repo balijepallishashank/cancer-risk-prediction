@@ -3,428 +3,474 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancer Risk Prediction</title>
+    <title>Cancer Lifestyle Risk Assessment Survey</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation Header */
+        .top-nav {
+            background: linear-gradient(135deg, #1f2937, #33333c);
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .top-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s ease;
+        }
+
+        .top-nav a:hover {
+            color: #ff8df6;
+        }
+
+        .top-nav .brand {
+            font-size: 17px;
+            color: #ff9cf7;
+            font-weight: bold;
+        }
+
+        /* Layout Container */
+        .layout-wrapper {
             display: flex;
             justify-content: space-evenly;
-            align-items: start;
+            align-items: flex-start;
             flex-wrap: wrap;
-        }
-        @media screen and (max-width:1200px) {
-            body{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap:20px
-            }
+            padding: 24px 12px;
+            gap: 20px;
         }
 
-        .con1,.con2{
-            width:20%;
-        }
-        .con2{
-            order:3;
-        }
-        @media screen and (max-width:1200px) {
-            .con1{
-                order: 2;
-                width:90%;
-                text-align: left;
-                padding-left: 10%;
-
-            }
-            .con2{
-                width:90%;
-                text-align: left;
-                padding-left: 10%;
-            }
-            
+        .con1, .con2 {
+            width: 22%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        .con1 div, .con2 div{
-            transition:   0.35s ease-in;
-            padding:2%
+        .con2 {
+            order: 3;
         }
-        
-        .con1 div:hover,.con2 div:hover{
-            transform: scale(1.1);
-            background-color: 	rgb(255,192,203,0.6);
-            border-radius: 20px;
+
+        .info-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border-left: 4px solid #9100ff;
         }
-        .con1 p,.con2 p{
-            font-size: 15px;
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(145, 0, 255, 0.15);
         }
-        
+
+        .info-card h4 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #555;
+        }
 
         .container {
-            padding: 20px;
+            width: 48%;
+            min-width: 320px;
+            order: 2;
         }
 
-        @media screen and (max-width:1200px) {
-            .container{
+        @media screen and (max-width: 1100px) {
+            .layout-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .container {
+                width: 95%;
                 order: 1;
-                padding: 0%;
-                width:80%
+            }
+            .con1 {
+                width: 95%;
+                order: 2;
+            }
+            .con2 {
+                width: 95%;
+                order: 3;
             }
         }
-        h4{
-            font-weight: bold;
-            font-size: 15px;
+
+        .form-card {
+            background-color: #ffffff;
+            padding: 32px 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
+
         h2 {
             text-align: center;
             color: #9100ff;
+            font-size: 24px;
+            margin-bottom: 8px;
         }
-        form {
-            background-color: white;
-            padding: 30px;
+
+        .sub-header {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        /* Error Banner */
+        .error-banner {
+            background-color: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-left: 4px solid #e11d48;
+            color: #9f1239;
+            padding: 14px 18px;
             border-radius: 8px;
-            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
-        form div{
+
+        .error-banner ul {
+            margin-left: 20px;
+            margin-top: 6px;
+        }
+
+        /* Form Fields */
+        .form-group {
             display: flex;
             justify-content: space-between;
-            gap:20px;
-            padding-bottom: 10px;
-            width:100%
+            align-items: center;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
         }
-        
 
-        @media screen and (max-width:1200px) {
-            h4{
-                font-size: 18px;
-            }
-           .con1  p, .con2 p{
-                font-size: 15px;
-            }
-            form{
-                padding: 3%;
-                width: 98%;
-            }
-            
-            
-        }
-        
         label {
-            margin-top: 10px;
-            font-weight: bold;
-            color: rgb(3, 3, 70);
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+            flex: 1;
         }
-        .input[type=number] {
-            margin: 5px 0;
+
+        .required-star {
+            color: #e11d48;
+            margin-left: 2px;
         }
-        .input{
-            min-width: 30vh;
+
+        .input-select {
+            flex: 1;
+            max-width: 250px;
+            border: 2px solid #e2e8f0;
+            height: 42px;
+            padding: 0 12px;
+            outline: none;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .input-select:hover {
+            border-color: #cbd5e1;
+            background-color: #ffffff;
+        }
+
+        .input-select:focus {
+            border-color: #9100ff;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(145, 0, 255, 0.15);
+        }
+
+        @media screen and (max-width: 520px) {
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .input-select {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* Submit Button */
+        .btn-container {
+            margin-top: 28px;
             text-align: center;
         }
-        .input {
-        border: 2px solid transparent;
-        width: 15em;
-        height: 2.5em;
-        padding-left: 0.8em;
-        outline: none;
-        overflow: hidden;
-        background-color: #F3F3F3;
-        border-radius: 10px;
-        transition: all 0.5s;
-        }
 
-        .input:hover,
-        input:focus {
-        border: 2px solid #4A9DEC;
-        box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
-        background-color: white;
-        }
-        @media screen and (max-width:420px) {
-            
-            form div{
-                align-items: center;
-                flex-direction: column;
-            }
-            form{
-                padding: 3%;
-                width: 98%;
-            }
-            label{
-                text-align: center;
-                font-size:15px;
-            }
-            .input{
-                height:30px;
-                min-width: 20%;
-            }
-        }
-
-        @media screen and (max-width:1200px) {
-           
-            
-           .input{
-            min-width:40%;
-           }
-        }
-        .submit-btn {
-            background-color: transparent;
+        button.submit-button {
+            font-family: inherit;
+            font-size: 16px;
+            padding: 14px 38px;
+            font-weight: 600;
+            background: #1f2937;
             color: white;
             border: none;
-            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
             cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        button.submit-button:hover {
+            background: #9100ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(145, 0, 255, 0.35);
+        }
+
+        button.submit-button:active {
+            transform: translateY(0);
+        }
+
+        .disclaimer-note {
+            margin-top: 18px;
+            font-size: 12px;
+            color: #777;
             text-align: center;
-            font-size: 20px;
-            font-weight: bold;
+            line-height: 1.4;
         }
-       
-        
-
-
-        button {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        font-size: 17px;
-        padding: 1em 2.7em;
-        font-weight: 500;
-        background: #1f2937;
-        color: white;
-        border: none;
-        position: relative;
-        overflow: hidden;
-        border-radius: 0.6em;
-        cursor: pointer;
-        left:30%
-        }
-
-        .gradient {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        border-radius: 0.6em;
-        margin-top: -0.25em;
-        background-image: linear-gradient(
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 0.3)
-        );
-        }
-
-        .label {
-        position: relative;
-        top: -1px;
-        }
-
-        .transition {
-        transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-        transition-duration: 500ms;
-        background-color: rgba(145, 0, 255, 0.6);
-        border-radius: 9999px;
-        width: 0;
-        height: 0;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        }
-
-        button:hover .transition{
-        width: 14em;
-        height: 14em;
-        }
-
-        button:active {
-        transform: scale(0.97);
-        
-        }
-
-        @media screen and (max-width:1200px) {
-            button{
-                left: 0%;
-            }
-        }
-
-
-        
-
     </style>
 </head>
 <body>
-    <div class="con1">
-        <div>
-            <h4>Smoking (Range: 0 - 2)</h4>
-            <p> - Description: Indicates the smoking habit of an individual.<br>
-                - 0: Non-smoker.<br>
-                - 1: Occasional smoker.<br>
-                - 2: Regular smoker.<br>
-                - Smoking is a well-known risk factor for various cancers, including lung cancer.</p>
-        </div>
 
-        <div>
-            <h4>Alcohol Consumption (Range: 0 - 3)</h4>
-            <p>
-                - Description: Reflects the level of alcohol consumption.<br>
-                - 0: Non-drinker.<br>
-                - 1-3: Increasing levels of alcohol consumption.<br>
-                - High alcohol intake is linked to an increased risk of certain cancers, such as liver cancer.
+    <!-- Header Navigation -->
+    <header class="top-nav">
+        <a href="/" class="brand">SPOC &bull; Cancer Prevention Guide</a>
+        <a href="/">&larr; Back to Home</a>
+    </header>
 
-            </p>
-        </div>
+    <div class="layout-wrapper">
+        <!-- Left Reference Sidebar -->
+        <aside class="con1">
+            <div class="info-card">
+                <h4>Smoking Habit</h4>
+                <p>Smoking is a primary risk factor for respiratory, gastrointestinal, and systemic malignancies.</p>
+            </div>
 
-        <div>
-            <h4>Red Meat Consumption (Range: 0 - 2)</h4>
-            <p>
-                - Description: Assesses the frequency of red meat consumption.<br>
-                - 0: Rarely or never eats red meat.<br>
-                - 1: Eats red meat occasionally.<br>
-                - 2: Frequently consumes red meat.<br>
-                - Higher consumption of red meat has been associated with an increased risk of certain cancers.
-            </p>
-        </div>
+            <div class="info-card">
+                <h4>Alcohol Consumption</h4>
+                <p>High alcohol intake produces carcinogenic metabolites that elevate risk in liver and digestive organs.</p>
+            </div>
 
-        <div>
-            <h4>Exposure to Pollution (Range: 0 - 1)            </h4>
-            <p>
-                - Description: Indicates the level of exposure to pollution.<br>
-                - 0: Low or no exposure.<br>
-                - 1: High exposure.<br>
-                - Pollution, especially air pollution, has been linked to increased cancer risk.
-            </p>
-        </div>
+            <div class="info-card">
+                <h4>Red Meat Intake</h4>
+                <p>Frequent consumption of red and processed meats is correlated with increased colorectal cancer incidence.</p>
+            </div>
 
-        <div>
-            <h4>Autoimmune Disorder (Range: 0 - 1)</h4>
-            <p>
-                - Description: Indicates whether the individual has an autoimmune disorder.<br>
-                - 0: No autoimmune disorder.<br>
-                - 1: Presence of an autoimmune disorder.<br>
-                - Certain autoimmune disorders may increase the risk of cancer.
+            <div class="info-card">
+                <h4>Pollution Exposure</h4>
+                <p>Chronic inhalation of PM2.5 and industrial air pollutants induces persistent cellular oxidative stress.</p>
+            </div>
 
-            </p>
-        </div>
+            <div class="info-card">
+                <h4>Autoimmune Disorders</h4>
+                <p>Systemic inflammatory disorders alter immune surveillance and may contribute to elevated risk profiles.</p>
+            </div>
+        </aside>
+
+        <!-- Center Assessment Form -->
+        <main class="container">
+            <div class="form-card">
+                <h2>Lifestyle Risk Survey</h2>
+                <p class="sub-header">Answer the questions below to assess key lifestyle and environmental risk indicators.</p>
+
+                {% if errors %}
+                <div class="error-banner">
+                    <strong>Please review the following:</strong>
+                    <ul>
+                        {% for err in errors %}
+                        <li>{{ err }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <form action="/predict" method="post" id="riskForm">
+                    <!-- Smoking -->
+                    <div class="form-group">
+                        <label for="smoking">Smoking Status <span class="required-star">*</span></label>
+                        <select class="input-select" id="smoking" name="smoking" required>
+                            <option value="" disabled {% if form_data.get('smoking') is none or form_data.get('smoking') == '' %}selected{% endif %}>Select your smoking habit</option>
+                            <option value="0" {% if form_data.get('smoking') == '0' %}selected{% endif %}>Non-smoker (0)</option>
+                            <option value="1" {% if form_data.get('smoking') == '1' %}selected{% endif %}>Occasional smoker (1)</option>
+                            <option value="2" {% if form_data.get('smoking') == '2' %}selected{% endif %}>Regular smoker (2)</option>
+                        </select>
+                    </div>
+
+                    <!-- Alcohol -->
+                    <div class="form-group">
+                        <label for="alcohol">Alcohol Consumption <span class="required-star">*</span></label>
+                        <select class="input-select" id="alcohol" name="alcohol" required>
+                            <option value="" disabled {% if form_data.get('alcohol') is none or form_data.get('alcohol') == '' %}selected{% endif %}>Select alcohol consumption</option>
+                            <option value="0" {% if form_data.get('alcohol') == '0' %}selected{% endif %}>Non-drinker (0)</option>
+                            <option value="1" {% if form_data.get('alcohol') == '1' %}selected{% endif %}>Light drinker (1-2 drinks/wk) (1)</option>
+                            <option value="2" {% if form_data.get('alcohol') == '2' %}selected{% endif %}>Moderate drinker (3-6 drinks/wk) (2)</option>
+                            <option value="3" {% if form_data.get('alcohol') == '3' %}selected{% endif %}>Heavy drinker (7+ drinks/wk) (3)</option>
+                        </select>
+                    </div>
+
+                    <!-- Red Meat -->
+                    <div class="form-group">
+                        <label for="redmeat">Red Meat Consumption <span class="required-star">*</span></label>
+                        <select class="input-select" id="redmeat" name="redmeat" required>
+                            <option value="" disabled {% if form_data.get('redmeat') is none or form_data.get('redmeat') == '' %}selected{% endif %}>Select frequency</option>
+                            <option value="0" {% if form_data.get('redmeat') == '0' %}selected{% endif %}>Rarely or Never (0)</option>
+                            <option value="1" {% if form_data.get('redmeat') == '1' %}selected{% endif %}>Occasionally (1-2 times/wk) (1)</option>
+                            <option value="2" {% if form_data.get('redmeat') == '2' %}selected{% endif %}>Frequently (3+ times/wk) (2)</option>
+                        </select>
+                    </div>
+
+                    <!-- Pollution -->
+                    <div class="form-group">
+                        <label for="pollution">Exposure to Pollution <span class="required-star">*</span></label>
+                        <select class="input-select" id="pollution" name="pollution" required>
+                            <option value="" disabled {% if form_data.get('pollution') is none or form_data.get('pollution') == '' %}selected{% endif %}>Select pollution level</option>
+                            <option value="0" {% if form_data.get('pollution') == '0' %}selected{% endif %}>Low or Minimal Exposure (0)</option>
+                            <option value="1" {% if form_data.get('pollution') == '1' %}selected{% endif %}>High Exposure (Urban/Industrial) (1)</option>
+                        </select>
+                    </div>
+
+                    <!-- Autoimmune -->
+                    <div class="form-group">
+                        <label for="autoimmune">Autoimmune Disorder History <span class="required-star">*</span></label>
+                        <select class="input-select" id="autoimmune" name="autoimmune" required>
+                            <option value="" disabled {% if form_data.get('autoimmune') is none or form_data.get('autoimmune') == '' %}selected{% endif %}>Select status</option>
+                            <option value="0" {% if form_data.get('autoimmune') == '0' %}selected{% endif %}>No (0)</option>
+                            <option value="1" {% if form_data.get('autoimmune') == '1' %}selected{% endif %}>Yes (Diagnosed) (1)</option>
+                        </select>
+                    </div>
+
+                    <!-- Diabetes -->
+                    <div class="form-group">
+                        <label for="diabetes">Personal Diabetes History <span class="required-star">*</span></label>
+                        <select class="input-select" id="diabetes" name="diabetes" required>
+                            <option value="" disabled {% if form_data.get('diabetes') is none or form_data.get('diabetes') == '' %}selected{% endif %}>Select status</option>
+                            <option value="0" {% if form_data.get('diabetes') == '0' %}selected{% endif %}>No (0)</option>
+                            <option value="1" {% if form_data.get('diabetes') == '1' %}selected{% endif %}>Yes (Diagnosed) (1)</option>
+                        </select>
+                    </div>
+
+                    <!-- Exercise -->
+                    <div class="form-group">
+                        <label for="exercise">Physical Exercise Frequency <span class="required-star">*</span></label>
+                        <select class="input-select" id="exercise" name="exercise" required>
+                            <option value="" disabled {% if form_data.get('exercise') is none or form_data.get('exercise') == '' %}selected{% endif %}>Select activity frequency</option>
+                            <option value="0" {% if form_data.get('exercise') == '0' %}selected{% endif %}>Sedentary / None (0)</option>
+                            <option value="1" {% if form_data.get('exercise') == '1' %}selected{% endif %}>Light (1-2 days/week) (1)</option>
+                            <option value="2" {% if form_data.get('exercise') == '2' %}selected{% endif %}>Moderate (3-4 days/week) (2)</option>
+                            <option value="3" {% if form_data.get('exercise') == '3' %}selected{% endif %}>Active (5+ days/week) (3)</option>
+                        </select>
+                    </div>
+
+                    <!-- Fruits & Vegetables -->
+                    <div class="form-group">
+                        <label for="fruitsveggies">Fruits & Vegetables Consumption <span class="required-star">*</span></label>
+                        <select class="input-select" id="fruitsveggies" name="fruitsveggies" required>
+                            <option value="" disabled {% if form_data.get('fruitsveggies') is none or form_data.get('fruitsveggies') == '' %}selected{% endif %}>Select intake level</option>
+                            <option value="0" {% if form_data.get('fruitsveggies') == '0' %}selected{% endif %}>Low (Rarely or < 1 serving/day) (0)</option>
+                            <option value="1" {% if form_data.get('fruitsveggies') == '1' %}selected{% endif %}>Moderate (1-2 servings/day) (1)</option>
+                            <option value="2" {% if form_data.get('fruitsveggies') == '2' %}selected{% endif %}>High (3+ servings/day) (2)</option>
+                        </select>
+                    </div>
+
+                    <!-- Sleep Hours -->
+                    <div class="form-group">
+                        <label for="sleephours">Nightly Sleep Duration <span class="required-star">*</span></label>
+                        <select class="input-select" id="sleephours" name="sleephours" required>
+                            <option value="" disabled {% if form_data.get('sleephours') is none or form_data.get('sleephours') == '' %}selected{% endif %}>Select average sleep hours</option>
+                            <option value="4" {% if form_data.get('sleephours') == '4' %}selected{% endif %}>4 Hours</option>
+                            <option value="5" {% if form_data.get('sleephours') == '5' %}selected{% endif %}>5 Hours</option>
+                            <option value="6" {% if form_data.get('sleephours') == '6' %}selected{% endif %}>6 Hours</option>
+                            <option value="7" {% if form_data.get('sleephours') == '7' %}selected{% endif %}>7 Hours</option>
+                            <option value="8" {% if form_data.get('sleephours') == '8' or (form_data.get('sleephours') is none and not errors) %}selected{% endif %}>8 Hours (Recommended)</option>
+                            <option value="9" {% if form_data.get('sleephours') == '9' %}selected{% endif %}>9 Hours</option>
+                            <option value="10" {% if form_data.get('sleephours') == '10' %}selected{% endif %}>10 Hours</option>
+                            <option value="11" {% if form_data.get('sleephours') == '11' %}selected{% endif %}>11 Hours</option>
+                            <option value="12" {% if form_data.get('sleephours') == '12' %}selected{% endif %}>12 Hours</option>
+                        </select>
+                    </div>
+
+                    <!-- Mental Health -->
+                    <div class="form-group">
+                        <label for="mentalhealth">Mental Stress Level <span class="required-star">*</span></label>
+                        <select class="input-select" id="mentalhealth" name="mentalhealth" required>
+                            <option value="" disabled {% if form_data.get('mentalhealth') is none or form_data.get('mentalhealth') == '' %}selected{% endif %}>Select stress level</option>
+                            <option value="0" {% if form_data.get('mentalhealth') == '0' %}selected{% endif %}>Minimal Stress / Good Well-being (0)</option>
+                            <option value="1" {% if form_data.get('mentalhealth') == '1' %}selected{% endif %}>Mild Stress (1)</option>
+                            <option value="2" {% if form_data.get('mentalhealth') == '2' %}selected{% endif %}>Moderate Frequent Stress (2)</option>
+                            <option value="3" {% if form_data.get('mentalhealth') == '3' %}selected{% endif %}>High Ongoing Stress (3)</option>
+                        </select>
+                    </div>
+
+                    <div class="btn-container">
+                        <button type="submit" class="submit-button">Calculate Risk Score</button>
+                    </div>
+
+                    <p class="disclaimer-note">
+                        * All fields are required. This questionnaire provides lifestyle education and does not replace professional clinical diagnosis.
+                    </p>
+                </form>
+            </div>
+        </main>
+
+        <!-- Right Reference Sidebar -->
+        <aside class="con2">
+            <div class="info-card">
+                <h4>Diabetes History</h4>
+                <p>Metabolic dysfunction and chronic hyperinsulinemia correlate with elevated cellular proliferation risks.</p>
+            </div>
+
+            <div class="info-card">
+                <h4>Physical Activity</h4>
+                <p>Regular moderate-to-vigorous exercise improves metabolic health, immune surveillance, and hormonal balance.</p>
+            </div>
+
+            <div class="info-card">
+                <h4>Antioxidant Nutrition</h4>
+                <p>Cruciferous and leafy vegetables provide essential dietary phytochemicals, antioxidants, and protective fiber.</p>
+            </div>
+
+            <div class="info-card">
+                <h4>Sleep Duration</h4>
+                <p>Adequate circadian rest (7-8 hours) is vital for DNA repair mechanisms and immune system homeostasis.</p>
+            </div>
+
+            <div class="info-card">
+                <h4>Stress & Well-being</h4>
+                <p>Chronic psychological distress elevates systemic cortisol levels, impacting sleep and cardiovascular and immune regulation.</p>
+            </div>
+        </aside>
     </div>
-
-    <div class="container">
-        <h2>Cancer Risk Prediction Form</h2>
-        <form action="/predict" method="post">
-            <!-- Input fields here -->
-            <!-- ... -->
-            <div>
-                <label for="smoking">Smoking:</label>
-                <input class="input"  type="number" id="smoking" name="smoking" placeholder="Enter the range: 0-2"  min="0" max="2" required>
-            </div>
-        
-
-            <div>
-                <label for="alcohol">Alcohol Consumption:</label>
-                <input class="input" type="number" id="alcohol" placeholder="Enter the range: 0-3" name="alcohol" min="0" max="3" required>
-
-            </div>
-        
-            <div>
-                <label for="redmeat">Red Meat Consumption:</label>
-                <input class="input" type="number" id="redmeat" name="redmeat" placeholder="Enter the range: 0-2" min="0" max="2" required>
-
-            </div>
-        
-            <div>
-                <label for="pollution">Exposure to Pollution:</label>
-                <input class="input" type="number" id="pollution" name="pollution" placeholder="Enter the range: 0-1" min="0" max="1" required>
-            </div>
-
-            <div>
-                <label for="autoimmune">Autoimmune Disorder:</label>
-                <input class="input" type="number" id="autoimmune" name="autoimmune" placeholder="Enter the range: 0-1" min="0" max="1" required>
-            </div>
-        
-            <div>
-                <label for="diabetes">Diabetes History:</label>
-                <input class="input" type="number" id="diabetes" name="diabetes" placeholder="Enter the range: 0-1" min="0" max="1" required>
-            </div>
-
-        
-            <div>
-                <label for="exercise">Exercise:</label>
-                <input class="input" type="number" id="exercise" name="exercise" placeholder="Enter the range: 0-3" min="0" max="3" required>
-            </div>
-        
-            <div>
-                <label for="fruitsveggies">Fruits and Veggies Consumption:</label>
-                <input class="input" type="number" id="fruitsveggies" name="fruitsveggies" placeholder="Enter the range: 0-2" min="0" max="2" required>
-            </div>
-        
-            <div>
-                <label for="sleephours">Sleep Hours:</label>
-                <input class="input" type="number" id="sleephours" name="sleephours" placeholder="Enter the range: 4-12" min="4" max="12" required>
-            </div>
-
-            <div>
-                <label for="mentalhealth">Mental Health:</label>
-                <input class="input" type="number" id="mentalhealth" name="mentalhealth" placeholder="Enter the range: 0-3" min="0" max="3" required>
-            </div>
-
-            <button>
-                <span class="transition"></span>
-                <span class="gradient"></span>
-                <input type="submit" value="Submit" class="submit-btn">
-              </button>
-
-        </form>
-    </div>
-
-    <div class="con2">
-        <div>
-            <h4>Diabetes History (Range: 0 - 1)            </h4>
-            <p>
-                - Description: Reflects whether the individual has a history of diabetes.<br>
-                - 0: No history of diabetes.<br>
-                - 1: Has diabetes.<br>
-                - Diabetes has been linked to a higher risk of some types of cancer.
-            </p>
-        </div>
-
-        <div>
-            <h4>Exercise (Range: 0 - 3)            </h4>
-            <p>
-                - Description: Measures the frequency of exercise.<br>
-                - 0: No exercise.<br>
-                - 1-3: Increasing levels of physical activity.<br>
-                - Regular physical activity is known to reduce the risk of several cancers.
-            </p>
-        </div>
-
-        <div>
-            <h4>Fruits and Veggies Consumption (Range: 0 - 2)            </h4>
-            <p>
-                - Description: Indicates the consumption level of fruits and vegetables.<br>
-                - 0: Low consumption.<br>
-                - 1: Moderate consumption.<br>
-                - 2: High consumption.<br>
-                - A diet rich in fruits and vegetables is associated with a lower risk of cancer.
-             
-            </p>
-        </div>
-
-        <div>
-            <h4>Sleep Hours (Range: 4 - 12)            </h4>
-            <p>
-                - Description: The average number of sleep hours per night.<br>
-                - Adequate sleep is important for overall health and may influence cancer risk.
-            </p>
-        </div>
-
-        <div>
-            <h4>Mental Health (Range: 0 - 3)            </h4>
-            <p>
-                - Description: Reflects the state of the individual's mental health.<br>
-                - 0: Good mental health.<br>
-                - 1-3: Increasing levels of mental health concerns.<br>
-                - While the direct link between mental health and cancer risk is complex, overall well-being, including mental health, plays a role in physical health.
-            
-            </p>
-        </div>
-    </div>
-
 
 </body>
 </html>
